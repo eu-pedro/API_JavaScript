@@ -1,6 +1,7 @@
 let lista = window.document.querySelector('#lista')
 let tabela = window.document.querySelector('#tabela')
-
+let campoBusca = document.querySelector('#campo')
+let btnFiltrar = document.querySelector('#filtrar')
 
 
 
@@ -20,6 +21,7 @@ async function carregarDados(){
             lista.appendChild(itemLista) //appendChild É para adicionar uma tag filha
             itemLista.textContent = `Olá, sou ${elementos.name}, possuo uma cor de cabelo ${elementos.hair_color}, e meu gênero é ${elementos.gender}`
           */
+         // CRIANDO ELEMENTOS HTML
             const itemTabela = window.document.createElement('tr')
             const dados = window.document.createElement('td')
             
@@ -47,4 +49,49 @@ async function carregarDados(){
 
 }
 
-carregarDados()
+async function filtrarDados(idPersonagem){  
+   const url = `https://swapi.dev/api/people/${idPersonagem}/?format=json`
+   try {
+
+     let resultado = await fetch(url)
+     const dados = await resultado.json()
+     console.log(dados)
+      
+      const item = document.createElement('tr')
+      const nome = document.createElement('td')
+      const nome1 = document.createElement('td')
+      const nome2 = document.createElement('td')
+      const nome3 = document.createElement('td')
+      
+      item.appendChild(nome)
+      item.appendChild(nome1)
+      item.appendChild(nome2)
+      item.appendChild(nome3)
+
+      nome.textContent = dados.name
+      nome1.textContent = dados.mass
+      nome2.textContent = dados.eye_color
+      nome3.textContent = dados.height
+      
+
+      tabela.appendChild(item)
+
+   } catch (error) {
+     console.log('[ERROR] o erro é o seguinte: ', error)
+   }
+}
+
+
+btnFiltrar.addEventListener('click', (evento)=>{
+  evento.preventDefault()
+  if(campoBusca.value != '' && campoBusca.value >= 1 && campoBusca.value <= 82){
+      filtrarDados(campoBusca.value)
+      
+      
+
+  }else{
+      alert('Verifique os dados e tente novamente!')
+  }
+})
+
+//carregarDados()
