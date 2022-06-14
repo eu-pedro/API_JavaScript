@@ -11,6 +11,7 @@ async function carregarDados(){
         let resultado = await fetch(url)
         const dados = await resultado.json()
 
+        
         for(elementos of dados.results){
           //  console.log(`Sou ${elementos.name} tenho ${elementos.height} de altura`)
 
@@ -30,6 +31,8 @@ async function carregarDados(){
             itemTabela.appendChild(dados1)
             const dados2 = window.document.createElement('td')
             itemTabela.appendChild(dados2)
+            const dados3 = document.createElement('td')
+            itemTabela.appendChild(dados3)
             
             
 
@@ -37,6 +40,7 @@ async function carregarDados(){
             dados.textContent = `${elementos.name}`
             dados1.textContent = `${elementos.mass}`
             dados2.textContent = `${elementos.eye_color}`
+            dados3.textContent = elementos.height
 
             tabela.appendChild(itemTabela)
         }
@@ -55,8 +59,10 @@ async function filtrarDados(idPersonagem){
 
      let resultado = await fetch(url)
      const dados = await resultado.json()
-     console.log(dados)
+     console.log(resultado)
       
+      
+
       const item = document.createElement('tr')
       const nome = document.createElement('td')
       const nome1 = document.createElement('td')
@@ -73,6 +79,14 @@ async function filtrarDados(idPersonagem){
       nome2.textContent = dados.eye_color
       nome3.textContent = dados.height
       
+      while(resultado.status != 200){
+          btnFiltrar.setAttribute('disable', 'disable')
+          btnFiltrar.textContent = 'Carregando...'
+      }
+      btnFiltrar.removeAttribute('disable')
+      btnFiltrar.textContent = 'Filtrar'
+
+
 
       tabela.appendChild(item)
 
@@ -84,6 +98,7 @@ async function filtrarDados(idPersonagem){
 
 btnFiltrar.addEventListener('click', (evento)=>{
   evento.preventDefault()
+  
   if(campoBusca.value != '' && campoBusca.value >= 1 && campoBusca.value <= 82){
       filtrarDados(campoBusca.value)
       
