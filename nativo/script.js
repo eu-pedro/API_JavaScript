@@ -86,8 +86,10 @@ async function filtrarDados(idPersonagem){
       btnFiltrar.removeAttribute('disable')
       btnFiltrar.textContent = 'Filtrar'
 
-
-
+      // SE HOUVER ALGUMA LINHA SERÁ REMOVIDA
+      if(tabela.children.length > 0){
+        tabela.removeChild(tabela.firstElementChild)
+      }
       tabela.appendChild(item)
 
    } catch (error) {
